@@ -3114,7 +3114,7 @@ core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-core-js@^3.19.2:
+core-js@^3.19.2, core-js@^3.6.5:
   version "3.22.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.0.tgz#b52007870c5e091517352e833b77f0b2d2b259f3"
   integrity sha512-8h9jBweRjMiY+ORO7bdWSeWfHhLPO7whobj7Z2Bl0IDo00C228EdGgH7FE4jGumbEjzcFfkfW8bXgdkEDhnwHQ==
@@ -7036,6 +7036,13 @@ react-app-polyfill@^3.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
+
+react-combine-reducers@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-combine-reducers/-/react-combine-reducers-1.1.1.tgz#e746e9bce279d8b1e83d8e5b8a07e80c18e472ed"
+  integrity sha512-wHVJj9RdtoqSY8np9CFgOjUxHZwrlKvETOyJ3EZwDrVkQ8evz/Kl9khZ1ZzcirdNwAAWa2gDNqPfDsYtMtoHBQ==
+  dependencies:
+    core-js "^3.6.5"
 
 react-dev-utils@^12.0.0, react-dev-utils@^12.0.1:
   version "12.0.1"
