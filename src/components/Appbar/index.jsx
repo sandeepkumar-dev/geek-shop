@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 
 function AppBar() {
   const [user, setUser] = React.useState(null);
-  const { theme, handleThemeChange } = useAppContext();
+  const { theme, handleThemeChange, reducer } = useAppContext();
+  const { wishList } = reducer;
 
   return (
     <div className="GuiAppbar">
@@ -36,9 +37,9 @@ function AppBar() {
           )}
 
           <Link to="/wish-list">
-            <Badge badgeContent={5} color="secondary">
-            <i className="far fa-heart"></i>
-          </Badge>
+            <Badge badgeContent={wishList?.length} color="secondary">
+              <i className="far fa-heart"></i>
+            </Badge>
           </Link>
           <Badge badgeContent={5} color="secondary">
             <i className="far fa-shopping-cart" aria-hidden="true"></i>
