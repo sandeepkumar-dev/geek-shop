@@ -1,0 +1,60 @@
+.GsProductPage {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: "filters products";
+
+  min-height: calc(100vh - 5.65rem);
+}
+
+#GsFilters {
+  grid-area: filters;
+}
+#GsProducts {
+  grid-area: products;
+}
+
+.GsProductPage__filters {
+  position: fixed;
+  width: 300px;
+  padding: 1rem;
+  overflow-y: auto;
+  height: calc(100vh - 5.65rem);
+  border-right: 1px solid var(--divider);
+}
+
+.GsProducts__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--divider);
+}
+
+.GsProducts__productsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 1rem;
+  padding: 1rem;
+}
+
+// media queries
+@media (max-width: 900px) {
+  .GsProductPage {
+    grid-template-columns: 1fr;
+    grid-template-areas: "products";
+  }
+
+  // mobile view filters
+  .GsMobileFilters {
+    display: block;
+  }
+  .GsProducts__sortBy {
+    display: none;
+  }
+  .GsProductPage__filters {
+    display: none;
+  }
+  .sortByDeskView {
+    display: block;
+  }
+}

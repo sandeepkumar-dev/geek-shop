@@ -1,0 +1,58 @@
+.GsFilters__title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 0 0 0.5rem 0;
+
+  h6:last-child {
+    font-weight: bold;
+    color: var(--secondary-main);
+    cursor: pointer;
+  }
+}
+
+hr {
+  border: 0.5px solid var(--divider);
+}
+
+.sortByDeskView {
+  display: none;
+}
+
+.GsFilters__listItem {
+  margin: 2rem 0;
+  h6:first-child {
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-size: 1.8rem;
+  }
+
+  button {
+    text-transform: capitalize;
+    margin: 0.5rem;
+  }
+
+  i {
+    color: #fba41c;
+  }
+}
+
+.GsFilters__priceRange {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  input {
+    max-width: 8rem;
+    font-size: 1.8rem;
+    height: 3.5rem;
+    padding: 0.5rem;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid var(--text-disabled);
+    color: var(--text-primary);
+    background-color: var(--theme-color);
+  }
+}
