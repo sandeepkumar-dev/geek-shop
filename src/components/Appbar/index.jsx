@@ -5,6 +5,7 @@ import Badge from "geeky-ui/core/Badge";
 import "./appbar.scss";
 import IconButton from "geeky-ui/core/IconButton";
 import { useAppContext } from "../../context/AppContext";
+import { Link } from "react-router-dom";
 
 function AppBar() {
   const [user, setUser] = React.useState(null);
@@ -34,9 +35,11 @@ function AppBar() {
             </Button>
           )}
 
-          <Badge badgeContent={5} color="secondary">
+          <Link to="/wish-list">
+            <Badge badgeContent={5} color="secondary">
             <i className="far fa-heart"></i>
           </Badge>
+          </Link>
           <Badge badgeContent={5} color="secondary">
             <i className="far fa-shopping-cart" aria-hidden="true"></i>
           </Badge>
