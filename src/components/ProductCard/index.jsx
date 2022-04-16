@@ -2,6 +2,8 @@ import Button from "geeky-ui/core/Button";
 import IconButton from "geeky-ui/core/IconButton";
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
+import { useAppContext } from "../../context/AppContext";
+import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
 import RatingStars from "../RatingStars";
 import "./productCard.scss";
@@ -15,17 +17,22 @@ const ProductCard = ({ product }) => {
     rating,
     rating_users,
   } = product;
+  const { dispatch, reducer } = useAppContext();
+  const { wishList } = reducer;
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
+
+  // check if the product is already in the wish list
+  const isExist = CheckExist({ arr: wishList, id: product.id })
 
   return (
     <div className="GsProductCard">
       <div className="GsProductCard__image">
         <img src={product_img} alt={product_name} />
       </div>
-      <IconButton color="primary" className="addToWishList">
-        <i className="far fa-heart"></i>
+      <IconButton color="primary" className="addToWishList" onClick={() => dispatch({ type: "addToWishList", payload: product })}>
+        <i className={`${isExist ? 'fa' : 'far'} fa-heart`}></i>
       </IconButton>
       <div className="GsProductCard__info">
         <div className="GsProductCard__name">
@@ -43,9 +50,8 @@ const ProductCard = ({ product }) => {
       </div>
       <Button
         variant="contained"
-        color="primary"
         fullWidth
-        className="addToCartBtn"
+        className="GsPrimaryBtn--light addToCartBtn"
       >
         Add to Cart
       </Button>
