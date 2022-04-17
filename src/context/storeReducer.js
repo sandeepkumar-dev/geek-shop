@@ -59,11 +59,19 @@ const storeReducer = (state, action) => {
 
         case "addToWishList":
             const isExist = CheckExist({ arr: state.wishList, id: action.payload.id })
-            console.log(isExist)
             return isExist ? { ...state, wishList: state.wishList.filter(wishList => wishList.id !== action.payload.id) } : { ...state, wishList: [...state.wishList, action.payload] };
 
         case "removeFromWishList":
             return { ...state, wishList: state.wishList.filter(wishList => wishList.id !== action.payload) }
+
+        case "moveToWishList":
+            return { ...state, wishList: [...state.wishList, action.payload], cart: state.cart.filter(item => item.id !== action.payload.id) };
+
+        case "addToCart":
+            return { ...state, cart: [...state.cart, action.payload] };
+
+        case "removeFromCart":
+            return { ...state, cart: state.cart.filter(item => item.id !== action.payload) }
 
         default:
             return state
