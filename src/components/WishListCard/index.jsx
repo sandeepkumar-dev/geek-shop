@@ -1,14 +1,12 @@
 import Button from "geeky-ui/core/Button";
-import IconButton from "geeky-ui/core/IconButton";
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
 import RatingStars from "../RatingStars";
-import "./productCard.scss";
+import "./wishListCard.scss";
 
-const ProductCard = ({ product }) => {
+const WishListCard = ({ product }) => {
   const {
     product_name,
     originalPrice,
@@ -17,32 +15,25 @@ const ProductCard = ({ product }) => {
     rating,
     rating_users,
   } = product;
-  const { dispatch, reducer } = useAppContext();
-  const { wishList } = reducer;
+  const { dispatch } = useAppContext();
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
 
-  // check if the product is already in the wish list
-  const isExist = CheckExist({ arr: wishList, id: product.id })
-
   return (
-    <div className="GsProductCard">
-      <div className="GsProductCard__image">
+    <div className="GsWishListCard">
+      <div className="GsWishListCard__image">
         <img src={product_img} alt={product_name} />
       </div>
-      <IconButton color="primary" className="addToWishList" onClick={() => dispatch({ type: "addToWishList", payload: product })}>
-        <i className={`${isExist ? 'fa' : 'far'} fa-heart`}></i>
-      </IconButton>
-      <div className="GsProductCard__info">
-        <div className="GsProductCard__name">
+      <div className="GsWishListCard__info">
+        <div className="GsWishListCard__name">
           <Typography variant="h6">{product_name}</Typography>
         </div>
-        <div className="GsProductCard__rating">
+        <div className="GsWishListCard__rating">
           <RatingStars rating={rating} />
           <Typography variant={"subtitle1"}>{rating_users}</Typography>
         </div>
-        <div className="GsProductCard__price">
+        <div className="GsWishListCard__price">
           <Typography variant="h6">₹{price}</Typography>
           <Typography variant="subtitle1">₹{originalPrice}</Typography>
           <Typography variant="subtitle1">({discount}% off)</Typography>
@@ -50,13 +41,19 @@ const ProductCard = ({ product }) => {
       </div>
       <Button
         variant="contained"
-        fullWidth
-        className="GsPrimaryBtn--light addToCartBtn"
+        className="GsPrimaryBtn--light"
       >
-        Add to Cart
+        Move to Cart
+      </Button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        onClick={() => dispatch({ type: "removeFromWishList", payload: product.id })}
+      >
+        Remove from wishList
       </Button>
     </div>
   );
 };
 
-export default ProductCard;
+export default WishListCard;

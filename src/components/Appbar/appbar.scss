@@ -84,6 +84,11 @@
     font-size: 2.2rem;
     color: var(--theme-color);
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .GuiAppbar__menu__user {

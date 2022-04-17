@@ -1,0 +1,11 @@
+.GswishList {
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--divider);
+}
+
+.GsWishList__items {
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

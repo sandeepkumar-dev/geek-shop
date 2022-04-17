@@ -1,0 +1,76 @@
+.GsWishListCard {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  min-width: initial;
+  max-width: 37rem;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  .GsWishListCard__image {
+    width: 100%;
+    height: 26rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 530px) {
+    max-width: initial;
+
+    .GsWishListCard__image {
+      height: 30rem;
+    }
+  }
+
+  .GsWishListCard__info {
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .GsWishListCard__name {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .GsWishListCard__rating {
+    i {
+      color: #fba41c;
+    }
+    h6 {
+      margin-left: 0.5rem;
+      display: inline;
+    }
+  }
+
+  .GsWishListCard__price {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+
+    h6:first-child {
+      font-weight: bold;
+    }
+    h6:nth-child(2) {
+      text-decoration: line-through;
+      text-decoration-color: var(--text-primary);
+    }
+    h6:last-child {
+      font-weight: lighter;
+    }
+  }
+
+  button {
+    margin: 0.2rem;
+  }
+}
