@@ -3,8 +3,8 @@ import React from "react";
 import { useAppContext } from "../../context/AppContext";
 
 function SortByFeatured() {
-  const { dispatch, reducer } = useAppContext();
-  const filters = reducer.filters;
+  const { dispatch, store } = useAppContext();
+  const filters = store.filters;
 
   const updateFilters = (value) => {
     dispatch({ type: "APPLY_FILTERS", payload: value });
@@ -12,7 +12,7 @@ function SortByFeatured() {
   return (
     <>
       <Typography variant="subtitle1">
-        <span className="sortBy__dropdown">Sort by: { filters.lowToHigh ? 'Price: Low to High' : filters.highToLow ? 'Price: High to Low' : filters.newestArrivals ? 'Newest Arrivals' : 'Featured' }</span>
+        <span className="sortBy__dropdown">Sort by: {filters.lowToHigh ? 'Price: Low to High' : filters.highToLow ? 'Price: High to Low' : filters.newestArrivals ? 'Newest Arrivals' : 'Featured'}</span>
       </Typography>
       <div className="GsProducts__sortBy__options">
         <Typography

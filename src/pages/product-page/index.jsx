@@ -8,8 +8,8 @@ import AppBar from "../../components/Appbar";
 import { useAppContext } from "../../context/AppContext";
 
 function ProductPage() {
-  const { reducer } = useAppContext();
-  const { filteredProducts } = reducer;
+  const { store } = useAppContext();
+  const { filteredProducts } = store;
 
   return (
     <>

@@ -6,8 +6,8 @@ import { useAppContext } from '../../context/AppContext';
 import "./wishList-page.scss"
 
 function WishList() {
-  const { reducer } = useAppContext();
-  const { wishList } = reducer;
+  const { store } = useAppContext();
+  const { wishList } = store;
   return (
     <>
       <AppBar />

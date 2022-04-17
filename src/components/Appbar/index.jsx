@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 
 function AppBar() {
   const [user, setUser] = React.useState(null);
-  const { theme, handleThemeChange, reducer } = useAppContext();
-  const { wishList } = reducer;
+  const { theme, handleThemeChange, store } = useAppContext();
+  const { wishList } = store;
 
   return (
     <div className="GuiAppbar">

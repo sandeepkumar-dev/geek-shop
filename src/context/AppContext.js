@@ -22,13 +22,13 @@ function AppCnxtProvider({ children }) {
     };
 
     // reducer for filters and products
-    const [state, dispatch] = React.useReducer(rootReducer, initialData)
+    const [reducer, dispatch] = React.useReducer(rootReducer, initialData)
 
-    const reducer = {
-        filters: state.filters.filters,
-        products: state.filters.products,
-        filteredProducts: state.filters.filteredProducts,
-        wishList: state.wishlist
+    const store = {
+        filters: reducer.filters.filters,
+        products: reducer.filters.products,
+        filteredProducts: reducer.filters.filteredProducts,
+        wishList: reducer.wishlist
     }
 
     React.useEffect(() => {
@@ -40,10 +40,10 @@ function AppCnxtProvider({ children }) {
     }, []);
 
     // sort the brands name
-    const brandsName = SortedBrands({ arr: reducer.products })
+    const brandsName = SortedBrands({ arr: store.products })
 
     return (
-        <AppContext.Provider value={{ theme, handleThemeChange, brandsName, reducer, dispatch }}>
+        <AppContext.Provider value={{ theme, handleThemeChange, brandsName, store, dispatch }}>
             {children}
         </AppContext.Provider>
     )

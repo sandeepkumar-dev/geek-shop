@@ -9,8 +9,8 @@ function Filters() {
   const [maxPrice, setMaxPrice] = React.useState(null);
   const [inputError, setInputError] = React.useState(null);
 
-  const { dispatch, brandsName, reducer } = useAppContext();
-  const filters = reducer.filters;
+  const { dispatch, brandsName, store } = useAppContext();
+  const filters = store.filters;
 
   const inputPriceFilter = (e) => {
     e.preventDefault();
@@ -112,7 +112,7 @@ function Filters() {
             variant="contained"
             {...filters.allPrice && { color: "primary" }}
             size="small"
-            onClick={() =>  {
+            onClick={() => {
               updateFilters({ allPrice: true, minPrice: null, maxPrice: null })
               setMaxPrice(null)
               setMinPrice(null)
@@ -136,7 +136,7 @@ function Filters() {
             variant="contained"
             {...filters.maxPrice === 3000 && { color: "primary" }}
             size="small"
-            onClick={() =>  {
+            onClick={() => {
               updateFilters({ allPrice: false, minPrice: 1000, maxPrice: 3000 })
               setMaxPrice(null)
               setMinPrice(null)
@@ -148,7 +148,7 @@ function Filters() {
             variant="contained"
             {...filters.maxPrice === 5000 && { color: "primary" }}
             size="small"
-            onClick={() =>  {
+            onClick={() => {
               updateFilters({ allPrice: false, minPrice: 3000, maxPrice: 5000 })
               setMaxPrice(null)
               setMinPrice(null)
@@ -160,7 +160,7 @@ function Filters() {
             variant="contained"
             {...filters.minPrice === 5000 && { color: "primary" }}
             size="small"
-            onClick={() =>  {
+            onClick={() => {
               updateFilters({
                 allPrice: false,
                 minPrice: 5000,

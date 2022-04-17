@@ -17,8 +17,8 @@ const ProductCard = ({ product }) => {
     rating,
     rating_users,
   } = product;
-  const { dispatch, reducer } = useAppContext();
-  const { wishList } = reducer;
+  const { dispatch, store } = useAppContext();
+  const { wishList } = store;
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
