@@ -1,19 +1,12 @@
 import React from 'react'
 import SortedBrands from '../utils/SortedBrands'
-import filtersReducer from './filtersReducer'
-import wishListReducer from './wishListReducer'
-import { data } from './initialData'
-import combineReducers from 'react-combine-reducers';
+import storeReducer from './storeReducer'
+import { initialStore } from './initialData'
 
 const AppContext = React.createContext(null)
 export function useAppContext() {
     return React.useContext(AppContext)
 }
-
-const [rootReducer, initialData] = combineReducers({
-    filters: [filtersReducer, data],
-    wishlist: [wishListReducer, []]
-});
 
 function AppCnxtProvider({ children }) {
     const [theme, setTheme] = React.useState('light')
@@ -22,14 +15,7 @@ function AppCnxtProvider({ children }) {
     };
 
     // reducer for filters and products
-    const [reducer, dispatch] = React.useReducer(rootReducer, initialData)
-
-    const store = {
-        filters: reducer.filters.filters,
-        products: reducer.filters.products,
-        filteredProducts: reducer.filters.filteredProducts,
-        wishList: reducer.wishlist
-    }
+    const [store, dispatch] = React.useReducer(storeReducer, initialStore)
 
     React.useEffect(() => {
         fetch("./MOCK_DATA.json")
