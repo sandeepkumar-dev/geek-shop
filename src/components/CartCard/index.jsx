@@ -53,7 +53,7 @@ const CartCard = ({ product }) => {
           <div className="GsCartCard__quantity">
             <Typography variant="subtitle1">Quantity: </Typography>
             <button>+</button>
-            <Typography variant="subtitle1">1</Typography>
+            <Typography variant="subtitle1">{0}</Typography>
             <button>-</button>
           </div>
         </div>

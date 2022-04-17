@@ -4,10 +4,12 @@ import AppBar from "../../components/Appbar"
 import CartCard from '../../components/CartCard';
 import { useAppContext } from '../../context/AppContext';
 import "./cart-page.scss"
+import CheckOutCard from './checkOutCard';
 
 function CartPage() {
     const { store } = useAppContext();
     const { cart } = store;
+
     return (
         <>
             <AppBar />
@@ -24,7 +26,7 @@ function CartPage() {
                     </div>
 
                     <div id="GsCheckout" className="GsCartPage__checkout">
-                        check out
+                        {cart.length > 0 && <CheckOutCard />}
                     </div>
                 </div>
             </div>
