@@ -42,6 +42,7 @@ const WishListCard = ({ product }) => {
       <Button
         variant="contained"
         className="GsPrimaryBtn--light"
+        onClick={() => dispatch({ type: "moveToCart", payload: product })}
       >
         Move to Cart
       </Button>

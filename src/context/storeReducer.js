@@ -73,6 +73,9 @@ const storeReducer = (state, action) => {
         case "removeFromCart":
             return { ...state, cart: state.cart.filter(item => item.id !== action.payload) }
 
+        case "moveToCart":
+            return { ...state, cart: [...state.cart, action.payload], wishList: state.wishList.filter(item => item.id !== action.payload.id) };
+
         default:
             return state
     }
