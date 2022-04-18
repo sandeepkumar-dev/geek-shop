@@ -17,14 +17,24 @@ const ProductCard = ({ product }) => {
     rating,
     rating_users,
   } = product;
+  const [existInCart, setExistInCart] = React.useState(false);
+  const [existInWishlist, setExistInWishList] = React.useState(false);
+
   const { dispatch, store } = useAppContext();
-  const { wishList } = store;
+  const { wishList, cart } = store;
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
 
-  // check if the product is already in the wish list
-  const isExist = CheckExist({ arr: wishList, id: product.id })
+  const cartHandler = () => {
+    !existInCart ? dispatch({ type: "addToCart", payload: product }) : dispatch({ type: "removeFromCart", payload: product.id })
+  }
+
+  React.useEffect(() => {
+    // check if the product is already in the wish list
+    setExistInWishList(CheckExist({ arr: wishList, id: product.id }))
+    setExistInCart(CheckExist({ arr: cart, id: product.id }))
+  }, [cart, product.id, wishList])
 
   return (
     <div className="GsProductCard">
@@ -32,7 +42,7 @@ const ProductCard = ({ product }) => {
         <img src={product_img} alt={product_name} />
       </div>
       <IconButton color="primary" className="addToWishList" onClick={() => dispatch({ type: "addToWishList", payload: product })}>
-        <i className={`${isExist ? 'fa' : 'far'} fa-heart`}></i>
+        <i className={`${existInWishlist ? 'fa' : 'far'} fa-heart`}></i>
       </IconButton>
       <div className="GsProductCard__info">
         <div className="GsProductCard__name">
@@ -51,9 +61,10 @@ const ProductCard = ({ product }) => {
       <Button
         variant="contained"
         fullWidth
-        className="GsPrimaryBtn--light addToCartBtn"
+        {...existInCart ? { color: "secondary", className: "addToCartBtn" } : { className: "GsPrimaryBtn--light addToCartBtn" }}
+        onClick={cartHandler}
       >
-        Add to Cart
+        {!existInCart ? 'Add to ' : 'Remove from '} Cart
       </Button>
     </div>
   );

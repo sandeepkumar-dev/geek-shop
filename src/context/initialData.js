@@ -1,4 +1,4 @@
-export const data = {
+export const initialStore = {
     filters: {
         lowToHigh: false,
         highToLow: false,
@@ -13,5 +13,6 @@ export const data = {
     },
     products: [],
     filteredProducts: [],
-    wishList: []
+    wishList: [],
+    cart: [],
 }

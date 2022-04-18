@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 function AppBar() {
   const [user, setUser] = React.useState(null);
   const { theme, handleThemeChange, store } = useAppContext();
-  const { wishList } = store;
+  const { wishList, cart } = store;
 
   return (
     <div className="GuiAppbar">
@@ -41,9 +41,11 @@ function AppBar() {
               <i className="far fa-heart"></i>
             </Badge>
           </Link>
-          <Badge badgeContent={5} color="secondary">
-            <i className="far fa-shopping-cart" aria-hidden="true"></i>
-          </Badge>
+          <Link to="/my-cart">
+            <Badge badgeContent={cart?.length} color="secondary">
+              <i className="far fa-shopping-cart" aria-hidden="true"></i>
+            </Badge>
+          </Link>
           <IconButton onClick={() => handleThemeChange()}>
             <i className={`fa fa-${theme === "light" ? "sun" : "moon"}`}></i>
           </IconButton>

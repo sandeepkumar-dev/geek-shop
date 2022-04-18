@@ -1,6 +1,7 @@
-import { data } from "./initialData";
+import { initialStore } from "./initialData";
+import CheckExist from "../utils/CheckExistOrNot";
 
-const filtersReducer = (state, action) => {
+const storeReducer = (state, action) => {
     switch (action.type) {
         case 'APPLY_FILTERS':
             let filters = { ...state.filters, ...action.payload };
@@ -51,14 +52,33 @@ const filtersReducer = (state, action) => {
             return { ...state, filters, filteredProducts: obj };
 
         case 'CLEAR_FILTERS':
-            return { ...state, filters: { ...data.filters }, filteredProducts: [...state.products] };
+            return { ...state, filters: { ...initialStore.filters }, filteredProducts: [...state.products] };
 
         case 'INITIAL_DATA':
             return { ...state, products: action.payload, filteredProducts: action.payload };
+
+        case "addToWishList":
+            const isExist = CheckExist({ arr: state.wishList, id: action.payload.id })
+            return isExist ? { ...state, wishList: state.wishList.filter(wishList => wishList.id !== action.payload.id) } : { ...state, wishList: [...state.wishList, action.payload] };
+
+        case "removeFromWishList":
+            return { ...state, wishList: state.wishList.filter(wishList => wishList.id !== action.payload) }
+
+        case "moveToWishList":
+            return { ...state, wishList: [...state.wishList, action.payload], cart: state.cart.filter(item => item.id !== action.payload.id) };
+
+        case "addToCart":
+            return { ...state, cart: [...state.cart, action.payload] };
+
+        case "removeFromCart":
+            return { ...state, cart: state.cart.filter(item => item.id !== action.payload) }
+
+        case "moveToCart":
+            return { ...state, cart: [...state.cart, action.payload], wishList: state.wishList.filter(item => item.id !== action.payload.id) };
 
         default:
             return state
     }
 }
 
-export default filtersReducer
+export default storeReducer
