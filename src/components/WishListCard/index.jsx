@@ -2,6 +2,7 @@ import Button from "geeky-ui/core/Button";
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
+import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
 import RatingStars from "../RatingStars";
 import "./wishListCard.scss";
@@ -15,10 +16,20 @@ const WishListCard = ({ product }) => {
     rating,
     rating_users,
   } = product;
-  const { dispatch } = useAppContext();
+  const { dispatch, store } = useAppContext();
+  const { cart } = store;
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
+
+  const MoveToCart = () => {
+    const isExist = CheckExist({ arr: cart, id: product.id })
+    if (isExist) {
+      dispatch({ type: "removeFromWishList", payload: product.id })
+    } else {
+      dispatch({ type: "moveToCart", payload: product })
+    }
+  }
 
   return (
     <div className="GsWishListCard">
@@ -42,7 +53,7 @@ const WishListCard = ({ product }) => {
       <Button
         variant="contained"
         className="GsPrimaryBtn--light"
-        onClick={() => dispatch({ type: "moveToCart", payload: product })}
+        onClick={MoveToCart}
       >
         Move to Cart
       </Button>

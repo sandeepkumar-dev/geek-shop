@@ -2,6 +2,7 @@ import Button from "geeky-ui/core/Button";
 import IconButton from "geeky-ui/core/IconButton";
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
+import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
@@ -25,10 +26,6 @@ const ProductCard = ({ product }) => {
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
-
-  const cartHandler = () => {
-    !existInCart ? dispatch({ type: "addToCart", payload: product }) : dispatch({ type: "removeFromCart", payload: product.id })
-  }
 
   React.useEffect(() => {
     // check if the product is already in the wish list
@@ -58,14 +55,26 @@ const ProductCard = ({ product }) => {
           <Typography variant="subtitle1">({discount}% off)</Typography>
         </div>
       </div>
-      <Button
-        variant="contained"
-        fullWidth
-        {...existInCart ? { color: "secondary", className: "addToCartBtn" } : { className: "GsPrimaryBtn--light addToCartBtn" }}
-        onClick={cartHandler}
-      >
-        {!existInCart ? 'Add to ' : 'Remove from '} Cart
-      </Button>
+      {existInCart ? <Link to="/my-cart">
+        <Button
+          variant="contained"
+          fullWidth
+          color="primary"
+          className="addToCartBtn"
+        >
+          {!existInCart ? 'Add to ' : 'Go to '} Cart
+        </Button>
+      </Link> :
+
+        <Button
+          variant="contained"
+          fullWidth
+          className="GsPrimaryBtn--light addToCartBtn"
+          onClick={() => dispatch({ type: "addToCart", payload: product })}
+        >
+          {!existInCart ? 'Add to ' : 'Go to '} Cart
+        </Button>
+      }
     </div>
   );
 };
