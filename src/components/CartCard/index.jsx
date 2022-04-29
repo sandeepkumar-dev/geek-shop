@@ -15,6 +15,7 @@ const CartCard = ({ product }) => {
     product_img,
     rating,
     rating_users,
+    quantity
   } = product;
   const { dispatch, store } = useAppContext();
   const { wishList } = store;
@@ -29,6 +30,14 @@ const CartCard = ({ product }) => {
     } else {
       dispatch({ type: "moveToWishList", payload: product })
     }
+  }
+
+  const increaseQuantity = () => {
+    dispatch({ type: "increaseQuantity", payload: product.id })
+  }
+
+  const decreaseQuantity = () => {
+    dispatch({ type: "decreaseQuantity", payload: product.id })
   }
 
   return (
@@ -52,9 +61,9 @@ const CartCard = ({ product }) => {
           </div>
           <div className="GsCartCard__quantity">
             <Typography variant="subtitle1">Quantity: </Typography>
-            <button>+</button>
-            <Typography variant="subtitle1">{0}</Typography>
-            <button>-</button>
+            <button onClick={increaseQuantity}>+</button>
+            <Typography variant="subtitle1">{quantity}</Typography>
+            <button onClick={decreaseQuantity} disabled={quantity === 1 && true}>-</button>
           </div>
         </div>
       </div>

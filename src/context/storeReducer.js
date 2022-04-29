@@ -76,6 +76,12 @@ const storeReducer = (state, action) => {
         case "moveToCart":
             return { ...state, cart: [...state.cart, action.payload], wishList: state.wishList.filter(item => item.id !== action.payload.id) };
 
+        case "increaseQuantity":
+            return { ...state, cart: state.cart.map(item => (item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item)) }
+
+        case "decreaseQuantity":
+            return { ...state, cart: state.cart.map(item => (item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item)) }
+
         default:
             return state
     }

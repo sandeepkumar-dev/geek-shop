@@ -25,6 +25,7 @@ const WishListCard = ({ product }) => {
   const MoveToCart = () => {
     const isExist = CheckExist({ arr: cart, id: product.id })
     if (isExist) {
+      dispatch({ type: "increaseQuantity", payload: product.id })
       dispatch({ type: "removeFromWishList", payload: product.id })
     } else {
       dispatch({ type: "moveToCart", payload: product })

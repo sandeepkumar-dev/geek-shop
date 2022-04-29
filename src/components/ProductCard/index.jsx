@@ -62,7 +62,7 @@ const ProductCard = ({ product }) => {
           color="primary"
           className="addToCartBtn"
         >
-          {!existInCart ? 'Add to ' : 'Go to '} Cart
+          Go to Cart
         </Button>
       </Link> :
 
@@ -70,9 +70,9 @@ const ProductCard = ({ product }) => {
           variant="contained"
           fullWidth
           className="GsPrimaryBtn--light addToCartBtn"
-          onClick={() => dispatch({ type: "addToCart", payload: product })}
+          onClick={() => dispatch({ type: "addToCart", payload: { ...product, quantity: 1 } })}
         >
-          {!existInCart ? 'Add to ' : 'Go to '} Cart
+          Add to Cart
         </Button>
       }
     </div>

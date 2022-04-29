@@ -15,8 +15,8 @@ function CheckOutCard() {
     const discount = DiscountRate({ originalPrice, price });
 
     React.useEffect(() => {
-        setTotalPrice(cart?.reduce((acc, item) => acc + item.originalPrice, 0))
-        setFinalPrice(cart?.reduce((acc, item) => acc + item.price, 0))
+        setTotalPrice(cart?.reduce((acc, item) => acc + item.originalPrice * item.quantity, 0))
+        setFinalPrice(cart?.reduce((acc, item) => acc + item.price * item.quantity, 0))
     }, [cart])
 
     return (
