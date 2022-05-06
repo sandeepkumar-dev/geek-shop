@@ -15,9 +15,9 @@ function AppBar() {
   return (
     <div className="GuiAppbar">
       <div className="GuiAppbar__container GuiContainer">
-        <div className="GuiAppbar__brand">
+        <Link to="/" className="GuiAppbar__brand">
           <Typography variant="h5">Geek-Shop</Typography>
-        </div>
+        </Link>
 
         <div className="GuiAppbar__searchBar">
           <i className="fa fa-search" aria-hidden="true"></i>

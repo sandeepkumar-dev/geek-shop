@@ -21,6 +21,8 @@
   align-items: center;
   color: var(--text-white);
   cursor: pointer;
+  user-select: none;
+  text-decoration: none;
 
   h5 {
     font-family: "Cute Font", cursive;
