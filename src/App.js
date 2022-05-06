@@ -11,7 +11,7 @@ import HomePage from './pages/Home-page';
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <HomePage /> },
-    { path: "/products", element: <ProductPage /> },
+    { path: "/products/:category", element: <ProductPage /> },
     { path: "/wish-list", element: <WishList /> },
     { path: "/my-cart", element: <CartPage /> },
   ])
