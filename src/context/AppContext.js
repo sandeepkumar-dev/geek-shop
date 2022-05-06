@@ -2,6 +2,7 @@ import React from 'react'
 import SortedBrands from '../utils/SortedBrands'
 import storeReducer from './storeReducer'
 import { initialStore } from './initialData'
+import SortedCatetory from '../utils/SortedCategory'
 
 const AppContext = React.createContext(null)
 export function useAppContext() {
@@ -27,9 +28,10 @@ function AppCnxtProvider({ children }) {
 
     // sort the brands name
     const brandsName = SortedBrands({ arr: store.products })
+    const categoryName = SortedCatetory({ arr: store.products })
 
     return (
-        <AppContext.Provider value={{ theme, handleThemeChange, brandsName, store, dispatch }}>
+        <AppContext.Provider value={{ theme, handleThemeChange, brandsName, categoryName, store, dispatch }}>
             {children}
         </AppContext.Provider>
     )
