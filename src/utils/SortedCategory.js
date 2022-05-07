@@ -1,28 +1,22 @@
 function SortedCatetory({ arr }) {
-    const categories = arr.reduce((acc, value) => {
-        let { category } = value
-        if (!acc[category]) {
-            acc[category] = {
-                name: category,
-                image: getRandomImage(arr, category),
-                count: 1
-            }
-        } else {
-            acc[category].count++
+    const category = Object.keys(arr).reduce((acc, curr) => {
+        acc[curr] = arr[curr].length;
+        return acc;
+    }, {});
+
+    const categoryName = Object.keys(category).map(item => {
+        return {
+            name: item,
+            image: getRandomImage(arr[item]),
+            count: category[item]
         }
-        return acc
-    }, {})
-
-
-
-    const sortedCategories = Object.values(categories).sort((a, b) => b.count - a.count);
-
-    return sortedCategories
+    }
+    )
+    return categoryName
 }
 
-function getRandomImage(arr, category) {
-    const a = arr.filter(item => item.category === category)
-    const b = a[Math.floor(Math.random() * a.length)]
+function getRandomImage(arr) {
+    const b = arr[Math.floor(Math.random() * arr.length)]
     return b.product_img
 }
 

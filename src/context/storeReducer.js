@@ -1,12 +1,15 @@
 import { initialStore } from "./initialData";
 import CheckExist from "../utils/CheckExistOrNot";
+import DiscountRate from "../utils/DiscountRate";
 
 const storeReducer = (state, action) => {
+    const category = action.payload.category
+    var filteredProducts = state.products[category];
     switch (action.type) {
         case 'APPLY_FILTERS':
-            let filters = { ...state.filters, ...action.payload };
+            let filters = { ...state.filters, ...action.payload.filters };
 
-            let obj = [...state.products];
+            let obj = state.products[category];
 
             if (filters.payOnDelivery) {
                 obj = obj.filter((product) => product.payOnDelivery);
@@ -32,7 +35,10 @@ const storeReducer = (state, action) => {
             }
 
             if (filters.discount) {
-                obj = obj.filter((product) => product.discount >= filters.discount);
+                obj = obj.filter((product) => {
+                    const discount = DiscountRate({ originalPrice: product.originalPrice, price: product.price });
+                    return discount >= filters.discount
+                });
             }
 
             if (filters.brand !== "all" && filters.brand !== null) {
@@ -52,10 +58,13 @@ const storeReducer = (state, action) => {
             return { ...state, filters, filteredProducts: obj };
 
         case 'CLEAR_FILTERS':
-            return { ...state, filters: { ...initialStore.filters }, filteredProducts: [...state.products] };
+            return { ...state, filters: { ...initialStore.filters }, filteredProducts };
 
         case 'INITIAL_DATA':
-            return { ...state, products: action.payload, filteredProducts: action.payload };
+            return { ...state, products: action.payload };
+
+        case 'GET_PRODUCTS':
+            return { ...state, filteredProducts };
 
         case "addToWishList":
             const isExist = CheckExist({ arr: state.wishList, id: action.payload.id })

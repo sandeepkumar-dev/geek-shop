@@ -1,7 +1,7 @@
 import Button from "geeky-ui/core/Button";
 import IconButton from "geeky-ui/core/IconButton";
 import Typography from "geeky-ui/core/Typography";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import CheckExist from "../../utils/CheckExistOrNot";
@@ -20,12 +20,16 @@ const ProductCard = ({ product }) => {
   } = product;
   const [existInCart, setExistInCart] = React.useState(false);
   const [existInWishlist, setExistInWishList] = React.useState(false);
+  const [discount, setDiscount] = React.useState(0);
 
   const { dispatch, store } = useAppContext();
   const { wishList, cart } = store;
 
   //calculate the discount rate
-  const discount = DiscountRate({ originalPrice, price });
+  useEffect(() => {
+    const discountRate = DiscountRate({ originalPrice, price });
+    setDiscount(discountRate);
+  }, [originalPrice, price]);
 
   React.useEffect(() => {
     // check if the product is already in the wish list

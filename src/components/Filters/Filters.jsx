@@ -1,15 +1,29 @@
 import Button from "geeky-ui/core/Button";
 import Typography from "geeky-ui/core/Typography";
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
+import SortedBrands from "../../utils/SortedBrands";
 import "./filters.scss";
 
 function Filters() {
   const [minPrice, setMinPrice] = React.useState(null);
   const [maxPrice, setMaxPrice] = React.useState(null);
   const [inputError, setInputError] = React.useState(null);
+  const [brands, setBrands] = React.useState([]);
 
-  const { dispatch, brandsName, store } = useAppContext();
+  var category = useParams();
+
+  const { dispatch, store } = useAppContext();
+
+  useEffect(() => {
+    if (store.filteredProducts) {
+      var brandName = SortedBrands({ arr: store.filteredProducts });
+      setBrands(brandName);
+    }
+  }, [store.filteredProducts]);
+
+
   const filters = store.filters;
 
   const inputPriceFilter = (e) => {
@@ -25,11 +39,16 @@ function Filters() {
   };
 
   const updateFilters = (value) => {
-    dispatch({ type: "APPLY_FILTERS", payload: value });
+    dispatch({
+      type: "APPLY_FILTERS", payload: {
+        category: category.category,
+        filters: value
+      }
+    });
   };
 
   const clearFilters = () => {
-    dispatch({ type: "CLEAR_FILTERS" });
+    dispatch({ type: "CLEAR_FILTERS", payload: { category: category.category } });
   };
 
   return (
@@ -273,7 +292,7 @@ function Filters() {
           >
             All brands
           </Button>
-          {brandsName.map((brand) => (
+          {brands.map((brand) => (
             <Button
               key={brand}
               {...filters.brand === brand && { color: "primary" }}

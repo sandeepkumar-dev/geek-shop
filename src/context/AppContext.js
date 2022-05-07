@@ -1,5 +1,4 @@
 import React from 'react'
-import SortedBrands from '../utils/SortedBrands'
 import storeReducer from './storeReducer'
 import { initialStore } from './initialData'
 import SortedCatetory from '../utils/SortedCategory'
@@ -19,19 +18,19 @@ function AppCnxtProvider({ children }) {
     const [store, dispatch] = React.useReducer(storeReducer, initialStore)
 
     React.useEffect(() => {
-        fetch("./MOCK_DATA.json")
+        const location = window.location.origin
+        fetch(`${location}/MOCK_DATA.json`)
             .then((res) => res.json())
             .then((data) => {
                 dispatch({ type: 'INITIAL_DATA', payload: data })
             });
     }, []);
 
-    // sort the brands name
-    const brandsName = SortedBrands({ arr: store.products })
+    // sort the producys by category
     const categoryName = SortedCatetory({ arr: store.products })
 
     return (
-        <AppContext.Provider value={{ theme, handleThemeChange, brandsName, categoryName, store, dispatch }}>
+        <AppContext.Provider value={{ theme, handleThemeChange, categoryName, store, dispatch }}>
             {children}
         </AppContext.Provider>
     )

@@ -1,5 +1,5 @@
 import { Typography } from "geeky-ui";
-import React from "react";
+import React, { useEffect } from "react";
 import Filters from "../../components/Filters/Filters";
 import MobieViewFilters from "../../components/Filters/MobieViewFilters";
 import "./product-page.scss";
@@ -9,13 +9,16 @@ import { useAppContext } from "../../context/AppContext";
 import { useParams } from "react-router-dom";
 
 function ProductPage() {
-  const { store } = useAppContext();
+  const { dispatch, store } = useAppContext();
   const { filteredProducts } = store;
 
   let { category } = useParams();
-  const filteredProductsByCategory = filteredProducts.filter(
-    (product) => product.category === category
-  );
+
+  useEffect(() => {
+    if (store.products) {
+      dispatch({ type: "GET_PRODUCTS", payload: { category } });
+    }
+  }, [category, dispatch, store.products]);
 
   return (
     <>
@@ -29,14 +32,14 @@ function ProductPage() {
           <div id="GsProducts">
             <div className="GsProducts__header">
               <Typography variant="subtitle1">
-                {category}{" : "}{filteredProductsByCategory?.length} results
+                {category}{" : "}{filteredProducts?.length} results
               </Typography>
 
               {/* shows featured filter and mobile-view filters  */}
               <MobieViewFilters />
             </div>
             <div className="GsProducts__productsList">
-              {filteredProductsByCategory?.map((product) => (
+              {filteredProducts?.map((product) => (
                 <ProductCard product={product} key={product.id} />
               ))}
             </div>

@@ -1,13 +1,21 @@
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
+import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 
 function SortByFeatured() {
   const { dispatch, store } = useAppContext();
   const filters = store.filters;
 
+  var category = useParams();
+
   const updateFilters = (value) => {
-    dispatch({ type: "APPLY_FILTERS", payload: value });
+    dispatch({
+      type: "APPLY_FILTERS", payload: {
+        category: category.category,
+        filters: value
+      }
+    });
   };
   return (
     <>
