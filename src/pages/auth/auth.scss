@@ -1,0 +1,50 @@
+.GsCenterDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.GsSignIn {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin-top: 10rem;
+    border: 1px solid rgb(241, 240, 240);
+    border-radius: 5px;
+    background-color: rgb(241, 240, 240);
+    padding: 1rem;
+
+    .GsSignIn__header h3 {
+        font-family: "Cute Font", cursive;
+        color: var(--primary-main);
+    }
+
+    .GsSignIn__form form {
+        width: 30rem;
+    }
+
+    .GsSignIn__form__item {
+        margin: 1rem;
+
+        input {
+            border: 1px solid rgb(167, 167, 167);
+            border-radius: 5px;
+            height: 4rem;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1.6rem;
+        }
+
+        button {
+            border: 1px solid rgb(167, 167, 167);
+            border-radius: 5px;
+            height: 3rem;
+            width: 100%;
+            font-family: "Cute Font", cursive;
+            font-size: 2.4rem;
+            color: var(--text-white);
+            background-color: var(--primary-light);
+            cursor: pointer;
+        }
+    }
+}

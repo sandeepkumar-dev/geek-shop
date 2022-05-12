@@ -31,9 +31,11 @@ function AppBar() {
               <Typography variant="subtitle1">Sandeep</Typography>
             </div>
           ) : (
-            <Button variant="contained" size="small">
-              Log In
-            </Button>
+            <Link to="/sign-in">
+              <Button variant="contained" size="small">
+                Log In
+              </Button>
+            </Link>
           )}
 
           <Link to="/wish-list">
