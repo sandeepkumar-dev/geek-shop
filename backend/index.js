@@ -1,7 +1,13 @@
-const express = require('express');
+import express, { json } from 'express';
+import Middleware from './src/middleware/index.js';
+import router from './src/routes/index.js';
+
 const app = express();
-const port = 3000;
+const port = 8000;
 
+// apply middleware
+Middleware().init(app);
+// apply routes
+app.use(router)
 
-app.get('/', (req, res) => res.send('Hello World!'));
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`App listening on port ${port}!`));
