@@ -7,6 +7,7 @@ import WishList from './pages/wish-list';
 import './App.css';
 import CartPage from './pages/cart-page';
 import HomePage from './pages/Home-page';
+import SignIn from './pages/auth/Sign-In';
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -14,6 +15,7 @@ const AppRoutes = () => {
     { path: "/products/:category", element: <ProductPage /> },
     { path: "/wish-list", element: <WishList /> },
     { path: "/my-cart", element: <CartPage /> },
+    { path: "/sign-in", element: <SignIn /> },
   ])
 
   return routes
