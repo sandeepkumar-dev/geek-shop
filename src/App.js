@@ -8,6 +8,7 @@ import './App.css';
 import CartPage from './pages/cart-page';
 import HomePage from './pages/Home-page';
 import SignIn from './pages/auth/Sign-In';
+import SignUp from './pages/auth/Sign-up';
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -16,6 +17,7 @@ const AppRoutes = () => {
     { path: "/wish-list", element: <WishList /> },
     { path: "/my-cart", element: <CartPage /> },
     { path: "/sign-in", element: <SignIn /> },
+    { path: "/sign-up", element: <SignUp /> },
   ])
 
   return routes
