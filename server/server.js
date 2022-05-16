@@ -1,13 +1,18 @@
-import express, { json } from 'express';
+import express from 'express';
 import Middleware from './src/middleware/index.js';
 import router from './src/routes/index.js';
+import { ConnectToDB } from "./src/db/conn.js";
+import dotenv from 'dotenv';
 
+dotenv.config();
+const PORT = parseInt(process.env.PORT);
 const app = express();
-const port = 8000;
 
+// connect to database
+ConnectToDB();
 // apply middleware
 Middleware().init(app);
 // apply routes
-app.use(router)
+router(app);
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));
