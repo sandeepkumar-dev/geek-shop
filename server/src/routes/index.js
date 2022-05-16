@@ -1,14 +1,8 @@
-import { Router } from 'express';
 import authRoutes from './auth.routes.js';
 
-const router = () => {
-    // initialize router
-    const router = Router();
-
+const router = (app) => {
     // authentication routes
-    authRoutes(router);
-
-    return router;
+    authRoutes(app);
 }
 
 export default router;
