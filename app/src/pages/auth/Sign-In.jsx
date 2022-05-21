@@ -1,12 +1,15 @@
 import Typography from 'geeky-ui/core/Typography'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AppBar from '../../components/Appbar'
+import { useAppContext } from '../../context/AppContext'
 import "./auth.scss"
 
 function SignIn() {
+    const navigate = useNavigate()
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const { handleUser } = useAppContext();
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -14,7 +17,27 @@ function SignIn() {
         if (email === '' || password === '') {
             console.log('Please fill in all the fields')
         } else {
-            console.log('Signing in...')
+            fetch("signin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('user', JSON.stringify(data.data))
+                        handleUser(data.data)
+                        navigate('/')
+                    } else {
+                        console.log(data.message)
+                    }
+                })
+                .catch(err => console.log(err))
         }
     }
 

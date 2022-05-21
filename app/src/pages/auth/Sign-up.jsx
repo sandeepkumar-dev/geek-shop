@@ -1,10 +1,12 @@
 import Typography from 'geeky-ui/core/Typography'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AppBar from '../../components/Appbar'
 import "./auth.scss"
 
 function SignUp() {
+    const navigate = useNavigate()
+    const [name, setName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [confirmPassword, setConfirmPassword] = React.useState('')
@@ -12,12 +14,31 @@ function SignUp() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (email === '' || password === '' || confirmPassword === '') {
+        if (name === "" || email === '' || password === '' || confirmPassword === '') {
             console.log('Please fill in all the fields')
         } else if (password !== confirmPassword) {
             console.log('Passwords do not match')
         } else {
-            console.log('Signing up...')
+            fetch("signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        navigate('/sign-in')
+                    } else {
+                        console.log(data.message)
+                    }
+                })
+                .catch(err => console.log(err))
         }
     }
 
@@ -35,7 +56,10 @@ function SignUp() {
                         <div className="GsSignIn__form">
                             <form onSubmit={handleSubmit}>
                                 <div className="GsSignIn__form__item">
-                                    <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                    <input type="test" placeholder="Name" onChange={(e) => setName(e.target.value)} />
+                                </div>
+                                <div className="GsSignIn__form__item">
+                                    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="GsSignIn__form__item">
                                     <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />

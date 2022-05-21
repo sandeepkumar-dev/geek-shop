@@ -6,7 +6,9 @@ const SignUp = (req, res) => {
 
     if (!email || !password || !name) {
         return res.status(400).json({
-            message: "Missing required fields"
+            success: false,
+            message: "Missing required fields",
+            data: null
         });
     }
 
@@ -19,15 +21,48 @@ const SignUp = (req, res) => {
     user.save()
         .then(() => {
             return res.status(201).json({
-                message: "User created successfully"
+                success: true,
+                message: "User created successfully",
+                data: null
             });
         }
         )
         .catch(err => {
-            return res.status(500).json({
-                message: "Error creating user",
-                error: err
-            });
+            if (err.code === 11000) {
+                return res.status(400).json({
+                    success: false,
+                    message: "User already exists",
+                    data: null
+                });
+            } else if (err.errors) {
+                if (err.errors.email) {
+                    return res.status(400).json({
+                        success: false,
+                        message: err.errors.email.message,
+                        data: null
+                    });
+                }
+                if (err.errors.password) {
+                    return res.status(400).json({
+                        success: false,
+                        message: err.errors.password.message,
+                        data: null
+                    });
+                }
+                if (err.errors.name) {
+                    return res.status(400).json({
+                        success: false,
+                        message: err.errors.name.message,
+                        data: null
+                    });
+                }
+            } else {
+                return res.status(500).json({
+                    success: false,
+                    message: "Error signing up",
+                    data: null
+                });
+            }
         }
         );
 };
@@ -37,27 +72,34 @@ const SignIn = (req, res) => {
 
     if (!email || !password) {
         return res.status(400).json({
-            message: "Missing required fields"
+            success: false,
+            message: "Missing required fields",
+            data: null
         });
     }
 
     User.findOne({ email }, (err, user) => {
         if (err) {
             return res.status(500).json({
+                success: false,
                 message: "Error signing in",
-                error: err
+                data: null
             });
         }
 
         if (!user) {
             return res.status(401).json({
-                message: "Incorrect email or password"
+                success: false,
+                message: "User not found",
+                data: null
             });
         }
 
         if (user.password !== password) {
             return res.status(401).json({
-                message: "Incorrect email or password"
+                success: false,
+                message: "Incorrect password",
+                data: null
             });
         }
 
@@ -65,8 +107,9 @@ const SignIn = (req, res) => {
         const { _id, name, email } = user;
 
         return res.json({
-            token,
-            user: { _id, name, email }
+            success: true,
+            message: "User signed in successfully",
+            data: { token, user: { _id, name, email } }
         });
     }
     );
