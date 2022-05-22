@@ -8,8 +8,7 @@ import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 
 function AppBar() {
-  const [user, setUser] = React.useState(null);
-  const { theme, handleThemeChange, store } = useAppContext();
+  const { user, handleUser, theme, handleThemeChange, store } = useAppContext();
   const { wishList, cart } = store;
 
   return (
@@ -27,8 +26,16 @@ function AppBar() {
         <div className="GuiAppbar__menu">
           {user ? (
             <div className="GuiAppbar__menu__user">
-              <Typography variant="subtitle2">Hi,</Typography>
-              <Typography variant="subtitle1">Sandeep</Typography>
+              <div className="GuiAppbar__user">
+                <Typography variant="subtitle2">Hi,</Typography>
+                <Typography variant="subtitle1">{user?.user?.name}</Typography>
+              </div>
+              <div className="GuiAppbar__dropDown">
+                <Typography variant="subtitle1">Profile</Typography>
+                <Button variant="outlined" size="small" onClick={() => handleUser(null)}>
+                  Log Out
+                </Button>
+              </div>
             </div>
           ) : (
             <Link to="/sign-in">
@@ -49,7 +56,7 @@ function AppBar() {
             </Badge>
           </Link>
           <IconButton onClick={() => handleThemeChange()}>
-            <i className={`fa fa-${theme === "light" ? "sun" : "moon"}`}></i>
+            <i className={`fa fa-${theme === "light" ? "moon" : "sun"}`}></i>
           </IconButton>
         </div>
       </div>
