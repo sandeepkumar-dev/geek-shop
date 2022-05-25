@@ -2,7 +2,7 @@ import Button from "geeky-ui/core/Button";
 import IconButton from "geeky-ui/core/IconButton";
 import Typography from "geeky-ui/core/Typography";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
@@ -10,6 +10,7 @@ import RatingStars from "../RatingStars";
 import "./productCard.scss";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   const {
     product_name,
     originalPrice,
@@ -22,8 +23,62 @@ const ProductCard = ({ product }) => {
   const [existInWishlist, setExistInWishList] = React.useState(false);
   const [discount, setDiscount] = React.useState(0);
 
-  const { dispatch, store } = useAppContext();
+  const { dispatch, store, user } = useAppContext();
   const { wishList, cart } = store;
+
+  // add to cart handler
+  const addToCartHandler = () => {
+    if (user.token === null) {
+      // redirect to login page
+      navigate('/sign-in');
+    } else {
+      fetch("/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": user.token
+        },
+        body: JSON.stringify(product),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            dispatch({ type: "updateCart", payload: data.data });
+            console.log(data.message)
+          } else {
+            console.log(data.message);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  // add to wishlist vise versa
+  const addToWishListHandler = () => {
+    if (user.token === null) {
+      // redirect to login page
+      navigate('/sign-in');
+    } else {
+      fetch("/wishlist/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": user.token
+        },
+        body: JSON.stringify(product),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            dispatch({ type: "updateWishList", payload: data.data });
+            console.log(data.message)
+          } else {
+            console.log(data.message);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
 
   //calculate the discount rate
   useEffect(() => {
@@ -33,16 +88,16 @@ const ProductCard = ({ product }) => {
 
   React.useEffect(() => {
     // check if the product is already in the wish list
-    setExistInWishList(CheckExist({ arr: wishList, id: product.id }))
-    setExistInCart(CheckExist({ arr: cart, id: product.id }))
-  }, [cart, product.id, wishList])
+    setExistInWishList(CheckExist({ arr: wishList, _id: product._id }))
+    setExistInCart(CheckExist({ arr: cart, _id: product._id }))
+  }, [cart, product._id, wishList])
 
   return (
     <div className="GsProductCard">
       <div className="GsProductCard__image">
         <img src={product_img} alt={product_name} />
       </div>
-      <IconButton color="primary" className="addToWishList" onClick={() => dispatch({ type: "addToWishList", payload: product })}>
+      <IconButton color="primary" className="addToWishList" onClick={addToWishListHandler}>
         <i className={`${existInWishlist ? 'fa' : 'far'} fa-heart`}></i>
       </IconButton>
       <div className="GsProductCard__info">
@@ -74,7 +129,7 @@ const ProductCard = ({ product }) => {
           variant="contained"
           fullWidth
           className="GsPrimaryBtn--light addToCartBtn"
-          onClick={() => dispatch({ type: "addToCart", payload: { ...product, quantity: 1 } })}
+          onClick={addToCartHandler}
         >
           Add to Cart
         </Button>

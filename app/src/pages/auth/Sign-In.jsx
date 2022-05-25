@@ -9,7 +9,7 @@ function SignIn() {
     const navigate = useNavigate()
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
-    const { handleUser } = useAppContext();
+    const { handleUser, dispatch } = useAppContext();
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -30,10 +30,15 @@ function SignIn() {
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        localStorage.setItem('user', JSON.stringify(data.data))
-                        handleUser(data.data)
-                        navigate('/')
+                        dispatch({ type: "updateCart", payload: data.data.cart ? data.data.cart : [] })
+                        dispatch({ type: "updateWishList", payload: data.data.wishList ? data.data.wishList : [] })
+                        let token = data.data.token
+                        let userInfo = data.data.userInfo
+                        localStorage.setItem('user', JSON.stringify({ token, userInfo }))
+                        handleUser({ token, userInfo })
+                        navigate(-1)
                     } else {
+                        handleUser({ token: null, userInfo: null })
                         console.log(data.message)
                     }
                 })

@@ -2,7 +2,6 @@ import Button from "geeky-ui/core/Button";
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
 import RatingStars from "../RatingStars";
 import "./cartCard.scss";
@@ -17,27 +16,97 @@ const CartCard = ({ product }) => {
     rating_users,
     quantity
   } = product;
-  const { dispatch, store } = useAppContext();
-  const { wishList } = store;
+  const { dispatch, user } = useAppContext();
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
 
+  const RemoveFromCart = () => {
+    fetch(`/cart/remove/${product._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: "updateCart", payload: data.data });
+          console.log(data.message)
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   const MoveToWishList = () => {
-    const isExist = CheckExist({ arr: wishList, id: product.id })
-    if (isExist) {
-      dispatch({ type: "removeFromCart", payload: product.id })
-    } else {
-      dispatch({ type: "moveToWishList", payload: product })
-    }
+    fetch("/wishlist/move", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token
+      },
+      body: JSON.stringify(product),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: "updateWishList", payload: data.data.wishlist });
+          dispatch({ type: "updateCart", payload: data.data.cart });
+          console.log(data.message)
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   const increaseQuantity = () => {
-    dispatch({ type: "increaseQuantity", payload: product.id })
+    fetch(`/cart/increase-quantity/${product._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: "updateCart", payload: data.data });
+          console.log(data.message)
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   const decreaseQuantity = () => {
-    dispatch({ type: "decreaseQuantity", payload: product.id })
+    fetch(`/cart/decrease-quantity/${product._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: "updateCart", payload: data.data });
+          console.log(data.message)
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -80,7 +149,7 @@ const CartCard = ({ product }) => {
           variant="outlined"
           color="secondary"
           size="small"
-          onClick={() => dispatch({ type: "removeFromCart", payload: product.id })}
+          onClick={RemoveFromCart}
         >
           Remove from Cart
         </Button>

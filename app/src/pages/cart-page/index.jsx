@@ -21,7 +21,7 @@ function CartPage() {
                 <div className="GsCartPage">
                     <div id="GsCartItems" className="GsCartPage__items">
                         {cart?.map(product => (
-                            <CartCard product={product} key={product.id} />
+                            <CartCard product={product} key={product._id} />
                         ))}
                     </div>
 

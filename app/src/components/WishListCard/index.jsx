@@ -2,7 +2,6 @@ import Button from "geeky-ui/core/Button";
 import Typography from "geeky-ui/core/Typography";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import CheckExist from "../../utils/CheckExistOrNot";
 import DiscountRate from "../../utils/DiscountRate";
 import RatingStars from "../RatingStars";
 import "./wishListCard.scss";
@@ -16,20 +15,51 @@ const WishListCard = ({ product }) => {
     rating,
     rating_users,
   } = product;
-  const { dispatch, store } = useAppContext();
-  const { cart } = store;
+  const { dispatch, user } = useAppContext();
 
   //calculate the discount rate
   const discount = DiscountRate({ originalPrice, price });
 
   const MoveToCart = () => {
-    const isExist = CheckExist({ arr: cart, id: product.id })
-    if (isExist) {
-      dispatch({ type: "increaseQuantity", payload: product.id })
-      dispatch({ type: "removeFromWishList", payload: product.id })
-    } else {
-      dispatch({ type: "moveToCart", payload: product })
-    }
+    fetch(`/cart/move`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token
+      },
+      body: JSON.stringify(product),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: "updateWishList", payload: data.data.wishlist });
+          dispatch({ type: "updateCart", payload: data.data.cart });
+          console.log(data.message)
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  const RemoveFromWishList = () => {
+    fetch(`/wishlist/remove/${product._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": user.token
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: "updateWishList", payload: data.data });
+          console.log(data.message)
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -61,7 +91,7 @@ const WishListCard = ({ product }) => {
       <Button
         variant="outlined"
         color="secondary"
-        onClick={() => dispatch({ type: "removeFromWishList", payload: product.id })}
+        onClick={RemoveFromWishList}
       >
         Remove from wishList
       </Button>

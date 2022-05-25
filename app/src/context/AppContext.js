@@ -16,17 +16,11 @@ function AppCnxtProvider({ children }) {
 
     // reducer for filters and products
     const [store, dispatch] = React.useReducer(storeReducer, initialStore)
-    const [user, setUser] = React.useState(null)
+    const [user, setUser] = React.useState({ token: null, userInfo: null })
 
     // user handler
     const handleUser = (user) => {
-        if (user === null) {
-            setUser(null)
-            localStorage.removeItem("user");
-            window.location.reload();
-        } else {
-            setUser(user)
-        }
+        setUser(user)
     }
 
     React.useEffect(() => {
@@ -42,7 +36,42 @@ function AppCnxtProvider({ children }) {
         // get user from local storage
         const user = localStorage.getItem('user')
         if (user) {
-            setUser(JSON.parse(user))
+            const data = JSON.parse(user)
+            // set user
+            setUser({
+                token: data.token,
+                userInfo: data.userInfo
+            })
+
+            // get cart from api
+            fetch("/cart/list", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": data.token
+                }
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    dispatch({ type: "updateCart", payload: data.data })
+                })
+                .catch((err) => { dispatch({ type: "updateCart", payload: [] }) })
+
+            // get wishlist from api
+            fetch("/wishlist/list", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": data.token
+                }
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    dispatch({ type: "updateWishList", payload: data.data })
+                })
+                .catch((err) => { dispatch({ type: "updateWishList", payload: [] }) })
+        } else {
+            setUser({ token: null, userInfo: null })
         }
     }, [])
 

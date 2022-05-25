@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ItemSchema } from "./itemSchema.js";
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -16,6 +17,16 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3
+    },
+    items: {
+        cart: {
+            type: [ItemSchema],
+            default: []
+        },
+        wishlist: {
+            type: [ItemSchema],
+            default: []
+        }
     }
 });
 

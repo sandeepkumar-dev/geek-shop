@@ -5,11 +5,19 @@ import Badge from "geeky-ui/core/Badge";
 import "./appbar.scss";
 import IconButton from "geeky-ui/core/IconButton";
 import { useAppContext } from "../../context/AppContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AppBar() {
+  const navigate = useNavigate()
   const { user, handleUser, theme, handleThemeChange, store } = useAppContext();
   const { wishList, cart } = store;
+
+  const handleLogout = () => {
+    handleUser({ token: null, userInfo: null });
+    localStorage.removeItem("user");
+    navigate("/");
+    window.location.reload();
+  };
 
   return (
     <div className="GuiAppbar">
@@ -24,15 +32,15 @@ function AppBar() {
         </div>
 
         <div className="GuiAppbar__menu">
-          {user ? (
+          {user.userInfo ? (
             <div className="GuiAppbar__menu__user">
               <div className="GuiAppbar__user">
                 <Typography variant="subtitle2">Hi,</Typography>
-                <Typography variant="subtitle1">{user?.user?.name}</Typography>
+                <Typography variant="subtitle1">{user?.userInfo?.name}</Typography>
               </div>
               <div className="GuiAppbar__dropDown">
                 <Typography variant="subtitle1">Profile</Typography>
-                <Button variant="outlined" size="small" onClick={() => handleUser(null)}>
+                <Button variant="outlined" size="small" onClick={handleLogout}>
                   Log Out
                 </Button>
               </div>
