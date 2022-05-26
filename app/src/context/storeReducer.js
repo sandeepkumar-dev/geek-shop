@@ -1,5 +1,5 @@
 import { initialStore } from "./initialData";
-import CheckExist from "../utils/CheckExistOrNot";
+// import CheckExist from "../utils/CheckExistOrNot";
 import DiscountRate from "../utils/DiscountRate";
 
 const storeReducer = (state, action) => {
@@ -66,30 +66,36 @@ const storeReducer = (state, action) => {
         case 'GET_PRODUCTS':
             return { ...state, filteredProducts };
 
-        case "addToWishList":
-            const isExist = CheckExist({ arr: state.wishList, id: action.payload.id })
-            return isExist ? { ...state, wishList: state.wishList.filter(wishList => wishList.id !== action.payload.id) } : { ...state, wishList: [...state.wishList, action.payload] };
+        // case "addToWishList":
+        //     const isExist = CheckExist({ arr: state.wishList, id: action.payload.id })
+        //     return isExist ? { ...state, wishList: state.wishList.filter(wishList => wishList._id !== action.payload._id) } : { ...state, wishList: [...state.wishList, action.payload] };
 
-        case "removeFromWishList":
-            return { ...state, wishList: state.wishList.filter(wishList => wishList.id !== action.payload) }
+        // case "removeFromWishList":
+        //     return { ...state, wishList: state.wishList.filter(wishList => wishList._id !== action.payload) }
 
-        case "moveToWishList":
-            return { ...state, wishList: [...state.wishList, action.payload], cart: state.cart.filter(item => item.id !== action.payload.id) };
+        // case "moveToWishList":
+        //     return { ...state, wishList: [...state.wishList, action.payload], cart: state.cart.filter(item => item._id !== action.payload._id) };
 
-        case "addToCart":
-            return { ...state, cart: [...state.cart, action.payload] };
+        // case "addToCart":
+        //     return { ...state, cart: [...state.cart, action.payload] };
 
-        case "removeFromCart":
-            return { ...state, cart: state.cart.filter(item => item.id !== action.payload) }
+        // case "removeFromCart":
+        //     return { ...state, cart: state.cart.filter(item => item._id !== action.payload) }
 
-        case "moveToCart":
-            return { ...state, cart: [...state.cart, action.payload], wishList: state.wishList.filter(item => item.id !== action.payload.id) };
+        // case "moveToCart":
+        //     return { ...state, cart: [...state.cart, action.payload], wishList: state.wishList.filter(item => item._id !== action.payload._id) };
 
-        case "increaseQuantity":
-            return { ...state, cart: state.cart.map(item => (item.id === action.payload ? { ...item, quantity: item.quantity + 1 } : item)) }
+        // case "increaseQuantity":
+        //     return { ...state, cart: state.cart.map(item => (item._id === action.payload ? { ...item, quantity: item.quantity + 1 } : item)) }
 
-        case "decreaseQuantity":
-            return { ...state, cart: state.cart.map(item => (item.id === action.payload ? { ...item, quantity: item.quantity - 1 } : item)) }
+        // case "decreaseQuantity":
+        //     return { ...state, cart: state.cart.map(item => (item._id === action.payload ? { ...item, quantity: item.quantity - 1 } : item)) }
+
+        case "updateCart":
+            return { ...state, cart: action.payload }
+
+        case "updateWishList":
+            return { ...state, wishList: action.payload }
 
         default:
             return state

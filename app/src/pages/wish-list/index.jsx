@@ -18,7 +18,7 @@ function WishList() {
 
         <div className="GsWishList__items">
           {wishList?.map(product => (
-            <WishListCard product={product} key={product.id} />
+            <WishListCard product={product} key={product._id} />
           ))}
         </div>
       </div>

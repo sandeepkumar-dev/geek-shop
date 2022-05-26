@@ -40,7 +40,7 @@ function ProductPage() {
             </div>
             <div className="GsProducts__productsList">
               {filteredProducts?.map((product) => (
-                <ProductCard product={product} key={product.id} />
+                <ProductCard product={product} key={product._id} />
               ))}
             </div>
           </div>

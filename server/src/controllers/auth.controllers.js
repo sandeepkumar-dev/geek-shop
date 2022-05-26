@@ -103,13 +103,12 @@ const SignIn = (req, res) => {
             });
         }
 
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: "1h" });
-        const { _id, name, email } = user;
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: "5h" });
 
         return res.json({
             success: true,
             message: "User signed in successfully",
-            data: { token, user: { _id, name, email } }
+            data: { token, userInfo: { _id: user._id, name: user.name, email: user.email }, cart: user.items.cart, wishList: user.items.wishList }
         });
     }
     );
